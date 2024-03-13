@@ -25,9 +25,9 @@ Al = Xl.T @ Xl
 def objective(u):
     return ((u.T @ Al @ u) / N)
 
-# L*軸に垂直な制約
-def constraint_perpendicular_to_L_star(u):
-    e = np.array([1, 0, 0])  # L*軸を指す標準基底ベクトル
+# L軸に垂直な制約
+def constraint_perpendicular_to_L(u):
+    e = np.array([0, 0, 1])  # L軸を指す標準基底ベクトル
     return np.dot(u, e)
 
 # 単位ベクトル制約
@@ -39,7 +39,7 @@ u0 = np.random.rand(3)
 u0 /= np.linalg.norm(u0) #単位ベクトル化
 
 # 制約の設定
-constraints = [{'type': 'eq', 'fun': constraint_perpendicular_to_L_star},
+constraints = [{'type': 'eq', 'fun': constraint_perpendicular_to_L},
                {'type': 'eq', 'fun': constraint_unit_vector}]
 
 # 逐次二次計画法による最適化問題の解決
@@ -53,10 +53,11 @@ optimized_u = np.reshape(optimized_u, (3,1))
 optimized_value = (optimized_u.T @ Al @ optimized_u) / N
 
 # 最適色平面と、二色覚平面の差分だけ回す
-img_out = cycle.cycle(image, optimized_u)
+img_out = cycle.cycle(image, optimized_u)#TODO cycle_imageに変更
 
 #最終的な画像を出す
 print("done!")
-cv2.imshow('result', img_out)
-cv2.waitKey()
-cv2.destroyAllWindows()
+print(optimized_u)
+# cv2.imshow('result', img_out)
+# cv2.waitKey()
+# cv2.destroyAllWindows()

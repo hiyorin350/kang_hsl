@@ -104,7 +104,6 @@ def cartesian_to_hsl(cartesian_image):
     # xとy座標から色相(H)と彩度(S)を計算
     x = cartesian_image[:, :, 0]
     y = cartesian_image[:, :, 1]
-
     hsl_image[:, :, 0] = (np.arctan2(y, x) * (180 / np.pi)) % 360  # 色相H
     hsl_image[:, :, 1] = np.sqrt(x**2 + y**2)  # 彩度S
     
